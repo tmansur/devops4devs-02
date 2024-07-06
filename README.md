@@ -95,9 +95,34 @@ Criar cluster kubernetes: `k3d cluster create <nome-cluster> --servers 3 --agent
 
 Listar os nós criados: kubectl get nodes
 
-#### Preparando a aplicação
+#### Preparando a imagem da aplicação
 
+Criar imagem do projeto a partir do dockerfile:
 
+docker build -t tmansur/review-filmes:v1 -f <caminho-dockerfile> <caminho-diretório-arquivos-programa> (Ex: docker build -t tmansur/review-filmes:v1 -f Review-Filmes.Web/Dockerfile .)
+
+Verificar imagem criada: docker image ls
+
+Enviar imagem para o Docker Hub: docker push tmansur/review-filmes:v1
+
+#### Planejando o deployment
+
+![planejamento-deploy](https://github.com/tmansur/devops4devs-02/assets/18071398/62e3ea2e-cbf8-4c0c-9a70-af09227d1d86)
+
+Para fazer o deploy do serviço no kubernetes temos que criar um arquivo .yaml com as informações que serão executadas.
+
+> [!TIP]
+> Algumas informações utilizadas nesse arquivo podem ser obtidas executando o seguinte comando dentro do kubernetes : `kubectl api-resources`.
+
+~~~ YAML
+
+~~~
+
+Criando os objetos no Kubernetes: `kubeclt apply -f <caminho/arquivo.yaml>`
+
+Listando objetos criados: `kubectl get pod`, ` kubectl get deploy`, `kubectl get replicaset`, ` kubectl get service`, `kubeclt get all`
+
+Para testar o funcionamento do service (mesmo ele expondo o serviço apenas internamente no cluster) podemos usar o comando : `kubectl port-forward service/postgre 5432:5432`. Esse comando faz um **redirecionamento temporário** da porta do cluster para a porta do nosso computador.
 
 ## Aula 03
 
