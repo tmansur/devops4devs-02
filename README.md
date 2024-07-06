@@ -39,6 +39,10 @@ Visualizar os nodes: `kubectl get nodes`
 #### k3d cluster list
 Lista os clusters criados
 
+#### k3d cluster stop
+
+#### k3d cluster start
+
 #### k3d cluster delete
 
 #### Comando para criar o cluster com k3d e executar a aplicação:
@@ -95,11 +99,42 @@ Criar cluster kubernetes: `k3d cluster create <nome-cluster> --servers 3 --agent
 
 Listar os nós criados: kubectl get nodes
 
-#### Preparando a aplicação
+#### Preparando a imagem da aplicação
 
+Criar imagem do projeto a partir do dockerfile:
 
+docker build -t tmansur/review-filmes:v1 -f <caminho-dockerfile> <caminho-diretório-arquivos-programa> (Ex: docker build -t tmansur/review-filmes:v1 -f Review-Filmes.Web/Dockerfile .)
 
-## Aula 03
+Verificar imagem criada: docker image ls
+
+Enviar imagem para o Docker Hub: docker push tmansur/review-filmes:v1
+
+#### Planejando e executando o deploy
+
+![planejamento-deploy](https://github.com/tmansur/devops4devs-02/assets/18071398/62e3ea2e-cbf8-4c0c-9a70-af09227d1d86)
+
+Para fazer o deploy do serviço no kubernetes temos que criar um arquivo .yaml com as informações que serão executadas.
+
+> [!TIP]
+> Algumas informações utilizadas nesse arquivo podem ser obtidas executando o seguinte comando dentro do kubernetes : `kubectl api-resources`.
+
+~~~ YAML
+
+~~~
+
+Criando os objetos no Kubernetes: `kubeclt apply -f <caminho/arquivo.yaml>`
+
+Listando objetos criados: `kubectl get pod`, ` kubectl get deploy`, `kubectl get replicaset`, ` kubectl get service`, `kubeclt get all`
+
+Para testar o funcionamento do service (mesmo ele expondo o serviço apenas internamente no cluster) podemos usar o comando : `kubectl port-forward service/postgre 5432:5432`. Esse comando faz um **redirecionamento temporário** da porta do cluster para a porta do nosso computador.
+
+#### Rollout de versão
+
+Lista histórico de deploys: `kubectl rollout history deployment <serviço>` (Exemplo: kubectl rollout history deployment reviewfilmes)
+
+Fazer rollout para uma versão anterior a que está executando: `kubectl rollout undo deployment <serviço>`
+
+## Aula 03 - Deploy ágil e seguro na AWS
 
 ### Link para a AWS:
 
