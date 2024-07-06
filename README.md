@@ -105,7 +105,7 @@ Verificar imagem criada: docker image ls
 
 Enviar imagem para o Docker Hub: docker push tmansur/review-filmes:v1
 
-#### Planejando o deployment
+#### Planejando e executando o deploy
 
 ![planejamento-deploy](https://github.com/tmansur/devops4devs-02/assets/18071398/62e3ea2e-cbf8-4c0c-9a70-af09227d1d86)
 
@@ -123,6 +123,12 @@ Criando os objetos no Kubernetes: `kubeclt apply -f <caminho/arquivo.yaml>`
 Listando objetos criados: `kubectl get pod`, ` kubectl get deploy`, `kubectl get replicaset`, ` kubectl get service`, `kubeclt get all`
 
 Para testar o funcionamento do service (mesmo ele expondo o serviço apenas internamente no cluster) podemos usar o comando : `kubectl port-forward service/postgre 5432:5432`. Esse comando faz um **redirecionamento temporário** da porta do cluster para a porta do nosso computador.
+
+#### Rollout de versão
+
+Lista histórico de deploys: `kubectl rollout history deployment <serviço>` (Exemplo: kubectl rollout history deployment reviewfilmes)
+
+Fazer rollout para uma versão anterior a que está executando: `kubectl rollout undo deployment <serviço>`
 
 ## Aula 03
 
