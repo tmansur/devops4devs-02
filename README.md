@@ -39,6 +39,10 @@ Visualizar os nodes: `kubectl get nodes`
 #### k3d cluster list
 Lista os clusters criados
 
+#### k3d cluster stop
+
+#### k3d cluster start
+
 #### k3d cluster delete
 
 #### Comando para criar o cluster com k3d e executar a aplicação:
@@ -130,7 +134,7 @@ Lista histórico de deploys: `kubectl rollout history deployment <serviço>` (Ex
 
 Fazer rollout para uma versão anterior a que está executando: `kubectl rollout undo deployment <serviço>`
 
-## Aula 03
+## Aula 03 - Deploy ágil e seguro na AWS
 
 ### Link para a AWS:
 
