@@ -197,7 +197,9 @@ spec:
   type: LoadBalancer # Configuração para rodar no kubernetes na nuvem
 ~~~
 
-kubectl apply -f <arquivo.yaml>
+Subir as configurações para o cluster: `kubectl apply -f <arquivo.yaml>`
+
+Para pegar a URL para acessar o serviço basta executar o comando `kubectl get all`, a URL estará disponível no serviço de LoadBalancer.
 
 > [!CAUTION]
 > Para não ser cobrado pelo ambiente utilizado, é importante excluí-lo logo após realização dos testes:
