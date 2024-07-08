@@ -144,12 +144,69 @@ Fazer rollout para uma versão anterior a que está executando: `kubectl rollout
 
 [https://aws.amazon.com/pt/cli](https://aws.amazon.com/pt/cli)
 
-### URL do template usado do Cloud Formation:
+Para configurar o AWS CLI para um usuário temos que criar um Access Key para o usuário (no portal da AWS | IAM) e executar o comando `aws configure`.
+
+### EKS - Elastic Kubernetes Service
+
+Serviço de Kubernete gerenciado da AWS (PaaS).
+
+#### Criação das roles para cluster Kubernetes e dos workers nodes
+Roles são permissões para um serviço utilizar/acessar outro na AWS.
+
+IAM | Roles | Create Role
+- Criação de role para EKS Cluster
+- Criação de role EC2 para Worker Node
+
+#### Criação da estrutura de redes
+
+Acessar a opção Cloud Formation e utilizar o link a seguir para criação da rede.
+
+URL do template usado do Cloud Formation:
 ```
 https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
 ```
 
-# Aula 04
+#### Criação do cluster Kubernetes com AWS AKS 
+
+- Criação do cluster
+- Configurar o Kubectl para conectar ao cluster criado:
+  - Configurando a conexão: aws eks update-kubeconfig --name <nome-do-cluster>
+  - Testando: kubectl get pod
+- Criação dos worker nodes no cluster. Acessar o cluster criado | compute | Add node group
+  - Testando: kubectl get nodes
+
+#### Fazendo o deploy do projeto
+
+Alterar o arquivo deployment.yaml para que o service que expõe o serviço web trabalhe com XXX e não mais com nodePort:
+
+~~~
+// deployment.yaml
+...
+apiVersion: v1 
+kind: Service   
+metadata:          
+  name: reviewfilmes
+spec:
+  selector:
+    app: reviewfilmes 
+  ports:
+    - port: 80
+      targetPort: 8080
+      # nodePort: 30000 # Configuração para rodar localmente
+  # type: NodePort # Configuração para rodar localmente
+  type: LoadBalancer # Configuração para rodar no kubernetes na nuvem
+~~~
+
+kubectl apply -f <arquivo.yaml>
+
+> [!CAUTION]
+> Para não ser cobrado pelo ambiente utilizado, é importante excluí-lo logo após realização dos testes:
+> - Deletar a aplicação: kubectl delete -f <arquivo-deploy.yaml>
+> - Deletar o node group via portal do AWS
+> - Deletar o cluster via portal da AWS
+> - Deletar a estrutura de rede via Cloud Formation
+
+# Aula 04 - Pipelines inteligentes com Github Actions
 
 # Aula 05 
 
